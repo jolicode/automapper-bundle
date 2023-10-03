@@ -1,6 +1,6 @@
 <?php
 
-namespace AutoMapper\Bundle\tests\Resources\App\Transformer;
+namespace AutoMapper\Bundle\Tests\Resources\App\Transformer;
 
 use AutoMapper\MapperMetadataInterface;
 use AutoMapper\Transformer\AbstractUniqueTypeTransformerFactory;

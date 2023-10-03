@@ -42,7 +42,7 @@ final class CacheWarmer implements CacheWarmerInterface
         }
 
         // preloaded files must be in cache directory
-        if (0 !== strpos($this->autoMapperCacheDirectory, $cacheDir)) {
+        if (!str_starts_with($this->autoMapperCacheDirectory, $cacheDir)) {
             return [];
         }
 
@@ -51,13 +51,13 @@ final class CacheWarmer implements CacheWarmerInterface
             return [];
         }
 
-        $mapppers = array_keys(require $registryFile);
+        $mappers = array_keys(require $registryFile);
 
         return array_map(
             function ($mapper) {
                 return sprintf('%s/%s.php', $this->autoMapperCacheDirectory, $mapper);
             },
-            $mapppers
+            $mappers
         );
     }
 }

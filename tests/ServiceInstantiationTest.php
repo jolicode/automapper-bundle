@@ -2,13 +2,13 @@
 
 namespace AutoMapper\Bundle\Tests;
 
+use AutoMapper\AutoMapperInterface;
 use AutoMapper\Bundle\Tests\Fixtures\AddressDTO;
 use AutoMapper\Bundle\Tests\Fixtures\DTOWithEnum;
 use AutoMapper\Bundle\Tests\Fixtures\Order;
 use AutoMapper\Bundle\Tests\Fixtures\SomeEnum;
 use AutoMapper\Bundle\Tests\Fixtures\User;
 use AutoMapper\Bundle\Tests\Fixtures\UserDTO;
-use AutoMapper\AutoMapperInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -32,13 +32,13 @@ class ServiceInstantiationTest extends WebTestCase
     {
         static::bootKernel();
 
-        self::assertFileExists(__DIR__ . '/Resources/var/cache/test/automapper/Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_NestedObject_array.php');
-        self::assertFileExists(__DIR__ . '/Resources/var/cache/test/automapper/Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_User_array.php');
-        self::assertFileExists(__DIR__ . '/Resources/var/cache/test/automapper/Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_AddressDTO_array.php');
+        self::assertFileExists(__DIR__ . '/Resources/var/cache/test/automapper/Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_NestedObject_array.php');
+        self::assertFileExists(__DIR__ . '/Resources/var/cache/test/automapper/Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_User_array.php');
+        self::assertFileExists(__DIR__ . '/Resources/var/cache/test/automapper/Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_AddressDTO_array.php');
 
-        self::assertInstanceOf(\Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_NestedObject_array::class, new \Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_NestedObject_array());
-        self::assertInstanceOf(\Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_User_array::class, new \Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_User_array());
-        self::assertInstanceOf(\Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_AddressDTO_array::class, new \Symfony_Mapper_Jane_Bundle_AutoMapperBundle_Tests_Fixtures_AddressDTO_array());
+        self::assertInstanceOf(\Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_NestedObject_array::class, new \Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_NestedObject_array());
+        self::assertInstanceOf(\Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_User_array::class, new \Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_User_array());
+        self::assertInstanceOf(\Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_AddressDTO_array::class, new \Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_AddressDTO_array());
     }
 
     public function testAutoMapper()
@@ -47,6 +47,7 @@ class ServiceInstantiationTest extends WebTestCase
         $container = static::$kernel->getContainer();
         $this->assertTrue($container->has(AutoMapperInterface::class));
         $autoMapper = $container->get(AutoMapperInterface::class);
+
         $this->assertInstanceOf(AutoMapperInterface::class, $autoMapper);
 
         $address = new AddressDTO();

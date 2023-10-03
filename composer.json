@@ -1,6 +1,6 @@
 {
     "name": "jolicode/automapper-bundle",
-    "type": "library",
+    "type": "symfony-bundle",
     "description": "JoliCode AutoMapper Symfony Bundle",
     "keywords": ["bundle", "symfony"],
     "homepage": "https://github.com/jolicode/automapper-bundle",
@@ -17,10 +17,11 @@
     ],
     "require": {
         "php": "^8.2",
-        "jolicode/automapper": "dev-main"
+        "jolicode/automapper": "^8.0"
     },
     "require-dev": {
         "moneyphp/money": "^4.2",
+        "phpdocumentor/reflection-docblock": "^5.3",
         "phpunit/phpunit": "^8.0",
         "symfony/framework-bundle": "^6.0",
         "symfony/uid": "^6.3",

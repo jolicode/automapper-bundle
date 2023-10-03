@@ -15,4 +15,4 @@ services:
 
   DummyApp\UserMapperConfiguration: ~
   DummyApp\IdNameConverter: ~
-  DummyApp\Transformer\MoneyTransformerFactory: ~
+  AutoMapper\Bundle\Tests\Resources\App\Transformer\MoneyTransformerFactory: ~
