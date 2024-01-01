@@ -25,7 +25,7 @@ final class CacheWarmer implements CacheWarmerInterface
         return false;
     }
 
-    public function warmUp(string $cacheDir): array
+    public function warmUp(string $cacheDir, string $buildDir = null): array
     {
         foreach ($this->cacheWarmerLoaders as $cacheWarmerLoader) {
             foreach ($cacheWarmerLoader->loadCacheWarmupData() as $cacheWarmupData) {
