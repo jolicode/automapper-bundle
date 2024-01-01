@@ -27,7 +27,7 @@ jobs:
           - 8.2
           - 8.3
         symfony-versions:
-          - ^6.3
+          - ^6.4
           - ^7.0
     steps:
       - name: checkout
@@ -45,9 +45,9 @@ jobs:
           extensions: mbstring, fileinfo, json, intl, dom
       - name: composer install
         run: composer require \
-          symfony/framework-bundle:${{ matrix.symfony-versions }} --no-update \
-          symfony/uid:${{ matrix.symfony-versions }} --no-update  \
-          symfony/yaml:${{ matrix.symfony-versions }} --no-update
+          symfony/framework-bundle:${{ matrix.symfony-versions }}  --dev --no-update \
+          symfony/uid:${{ matrix.symfony-versions }} --dev --no-update  \
+          symfony/yaml:${{ matrix.symfony-versions }} --dev --no-update
       - name: composer update
         run: composer update --prefer-stable
       - name: tests
