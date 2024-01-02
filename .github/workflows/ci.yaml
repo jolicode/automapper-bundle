@@ -27,8 +27,8 @@ jobs:
           - 8.2
           - 8.3
         symfony-versions:
-          - ^6.4
-          - ^7.0
+          - 6.4.*
+          - 7.0.*
     steps:
       - name: checkout
         uses: actions/checkout@master
@@ -43,12 +43,13 @@ jobs:
           php-version: '${{ matrix.php-versions }}'
           coverage: none
           extensions: mbstring, fileinfo, json, intl, dom
-      - name: composer install
-        run: composer require \
-          symfony/framework-bundle:${{ matrix.symfony-versions }}  --dev --no-update \
-          symfony/uid:${{ matrix.symfony-versions }} --dev --no-update  \
-          symfony/yaml:${{ matrix.symfony-versions }} --dev --no-update
+      - name: Install Symfony Flex
+        run: |
+          composer global config --no-plugins allow-plugins.symfony/flex true
+          composer global require --no-progress --no-scripts --no-plugins symfony/flex
       - name: composer update
-        run: composer update --prefer-stable
+        run: composer update --prefer-dist
+        env:
+          SYMFONY_REQUIRE: "${{ matrix.symfony-versions }}"
       - name: tests
         run: vendor/bin/phpunit
