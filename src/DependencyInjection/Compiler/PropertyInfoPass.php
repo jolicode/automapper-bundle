@@ -20,8 +20,6 @@ class PropertyInfoPass implements CompilerPassInterface
             return;
         }
 
-        $propertyInfoDefinition = $container->findDefinition('property_info');
-
         $container->setDefinition(
             'automapper.property_info.reflection_extractor.inner',
             new Definition(
@@ -47,11 +45,22 @@ class PropertyInfoPass implements CompilerPassInterface
             new Definition(
                 PropertyInfoExtractor::class,
                 [
-                    $this->replaceReflectionExtractor($propertyInfoDefinition->getArgument(0)),
-                    $this->replaceReflectionExtractor($propertyInfoDefinition->getArgument(1)),
-                    $this->replaceReflectionExtractor($propertyInfoDefinition->getArgument(2)),
-                    $this->replaceReflectionExtractor($propertyInfoDefinition->getArgument(3)),
-                    $this->replaceReflectionExtractor($propertyInfoDefinition->getArgument(4)),
+                    new IteratorArgument([
+                        new Reference('automapper.property_info.reflection_extractor'),
+                    ]),
+                    new IteratorArgument([
+                        new Reference('property_info.phpstan_extractor'),
+                        new Reference('automapper.property_info.reflection_extractor'),
+                    ]),
+                    new IteratorArgument([
+                        new Reference('automapper.property_info.reflection_extractor'),
+                    ]),
+                    new IteratorArgument([
+                        new Reference('automapper.property_info.reflection_extractor'),
+                    ]),
+                    new IteratorArgument([
+                        new Reference('automapper.property_info.reflection_extractor'),
+                    ]),
                 ]
             )
         );
@@ -63,19 +72,5 @@ class PropertyInfoPass implements CompilerPassInterface
                 new Reference('cache.property_info'),
             ])
         )->setDecoratedService('automapper.property_info');
-    }
-
-    private function replaceReflectionExtractor(IteratorArgument $extractors): IteratorArgument
-    {
-        $newExtractors = [];
-
-        /** @var Reference $extractor */
-        foreach ($extractors->getValues() as $extractor) {
-            $newExtractors[] = (string) $extractor === 'property_info.reflection_extractor'
-                ? new Reference('automapper.property_info.reflection_extractor')
-                : $extractor;
-        }
-
-        return new IteratorArgument($newExtractors);
     }
 }
