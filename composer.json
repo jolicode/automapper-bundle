@@ -29,7 +29,8 @@
         "symfony/yaml": "^6.3 || ^7.0"
     },
     "conflict": {
-        "symfony/framework-bundle": "5.1.0"
+        "symfony/framework-bundle": "5.1.0",
+        "jolicode/automapper": ">=8.2"
     },
     "autoload": {
         "psr-4": {

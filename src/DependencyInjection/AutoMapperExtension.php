@@ -24,7 +24,7 @@ use Symfony\Component\Uid\AbstractUid;
 
 class AutoMapperExtension extends Extension
 {
-    public function getConfiguration(array $config, ContainerBuilder $container): null|ConfigurationInterface
+    public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
         return new Configuration($container->getParameter('kernel.debug'));
     }

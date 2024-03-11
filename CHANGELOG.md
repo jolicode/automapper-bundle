@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - [GH#9](https://github.com/jolicode/automapper-bundle/pull/9) Update dependencies
 
+### Fixed
+- [GH#10](https://github.com/jolicode/automapper-bundle/pull/10) Restrict 8.1 bundle to use <8.2 core library
+
 ## [8.0.2] - 2024-01-04
 ### Added
 - [GH#6](https://github.com/jolicode/automapper-bundle/pull/6) Add support for Symfony 7
