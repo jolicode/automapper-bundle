@@ -46,20 +46,9 @@
         </service>
         <service id="AutoMapper\MapperGeneratorMetadataFactoryInterface" alias="AutoMapper\MapperGeneratorMetadataFactory" />
 
-        <service id="AutoMapper\Loader\FileLoader">
-            <argument type="service" id="AutoMapper\Generator\Generator" />
-            <argument type="string">%automapper.cache_dir%</argument>
-            <argument></argument> <!-- Hot reload -->
-        </service>
         <service id="AutoMapper\Loader\ClassLoaderInterface" alias="AutoMapper\Loader\FileLoader" />
 
-        <service id="AutoMapper\Generator\Generator">
-            <argument>null</argument>
-            <argument type="service" id="jane.mapping.class_discriminator_from_class_metadata" />
-            <argument>false</argument>
-        </service>
-
-        <service id="jane.mapping.class_discriminator_from_class_metadata" class="Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata">
+        <service id="automapper.mapping.class_discriminator_from_class_metadata" class="Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata">
             <argument type="service" id="serializer.mapping.class_metadata_factory" />
         </service>
 

@@ -25,6 +25,10 @@ class PropertyInfoPass implements CompilerPassInterface
             new Definition(
                 ReflectionExtractor::class,
                 [
+                    '$mutatorPrefixes' => null,
+                    '$accessorPrefixes' => null,
+                    '$arrayMutatorPrefixes' => null,
+                    '$enableConstructorExtraction' => true,
                     '$accessFlags' => ReflectionExtractor::ALLOW_PUBLIC | ReflectionExtractor::ALLOW_PROTECTED | ReflectionExtractor::ALLOW_PRIVATE,
                 ]
             )

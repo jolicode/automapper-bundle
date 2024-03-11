@@ -2,6 +2,7 @@
 
 namespace AutoMapper\Bundle\DependencyInjection;
 
+use AutoMapper\Bundle\AutoMapper;
 use AutoMapper\Bundle\CacheWarmup\CacheWarmerLoaderInterface;
 use AutoMapper\Bundle\CacheWarmup\ConfigurationCacheWarmerLoader;
 use AutoMapper\Bundle\Configuration\MapperConfigurationInterface;
@@ -12,6 +13,7 @@ use AutoMapper\Loader\FileLoader;
 use AutoMapper\MapperGeneratorMetadataFactory;
 use AutoMapper\MapperGeneratorMetadataInterface;
 use AutoMapper\Normalizer\AutoMapperNormalizer;
+use AutoMapper\Transformer\CustomTransformer\CustomTransformersRegistry;
 use AutoMapper\Transformer\SymfonyUidTransformerFactory;
 use AutoMapper\Transformer\TransformerFactoryInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -38,6 +40,17 @@ class AutoMapperExtension extends Extension
         $container->registerForAutoconfiguration(MapperConfigurationInterface::class)->addTag('automapper.mapper_configuration');
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+
+        if (class_exists(Generator::class)) {
+            $loader->load('generator.xml');
+        } else {
+            $loader->load('mapper_generator.xml');
+        }
+
+        if (class_exists(CustomTransformersRegistry::class)) {
+            $loader->load('custom_transformers.xml');
+        }
+
         $loader->load('services.xml');
 
         $container->getDefinition(MapperGeneratorMetadataFactory::class)
@@ -70,7 +83,16 @@ class AutoMapperExtension extends Extension
                 ->addArgument(new Reference($config['name_converter']));
         }
 
-        if ($config['allow_readonly_target_to_populate']) {
+        if (class_exists(CustomTransformersRegistry::class)) {
+            $autoMapperDefinition = $container->getDefinition(AutoMapper::class);
+
+            $mapperDefinition = $autoMapperDefinition->getArgument(2);
+
+            $autoMapperDefinition->replaceArgument(2, new Reference(CustomTransformersRegistry::class));
+            $autoMapperDefinition->addArgument($mapperDefinition);
+        }
+
+        if (class_exists(Generator::class) && $config['allow_readonly_target_to_populate']) {
             $container
                 ->getDefinition(Generator::class)
                 ->replaceArgument(2, $config['allow_readonly_target_to_populate']);
