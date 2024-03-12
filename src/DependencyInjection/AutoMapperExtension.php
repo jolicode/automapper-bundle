@@ -43,15 +43,13 @@ class AutoMapperExtension extends Extension
 
         if (class_exists(Generator::class)) {
             $loader->load('generator.xml');
+            $loader->load('services.xml');
         } else {
+            // AutoMapper 8.2
             $loader->load('mapper_generator.xml');
-        }
-
-        if (class_exists(CustomTransformersRegistry::class)) {
             $loader->load('custom_transformers.xml');
+            $loader->load('services_82.xml');
         }
-
-        $loader->load('services.xml');
 
         $container->getDefinition(MapperGeneratorMetadataFactory::class)
             ->replaceArgument(5, $config['date_time_format'])
