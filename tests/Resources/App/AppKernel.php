@@ -13,6 +13,9 @@ use AutoMapper\Bundle\Tests\Fixtures\User;
 use AutoMapper\Bundle\Tests\Fixtures\UserDTO;
 use AutoMapper\MapperGeneratorMetadataInterface;
 use AutoMapper\MapperMetadata;
+use AutoMapper\Transformer\CustomTransformer\CustomModelTransformer;
+use AutoMapper\Transformer\CustomTransformer\CustomModelTransformerInterface;
+use AutoMapper\Transformer\CustomTransformer\CustomPropertyTransformerInterface;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -59,27 +62,53 @@ class AppKernel extends Kernel
     }
 }
 
-class UserMapperConfiguration implements MapperConfigurationInterface
-{
-    public function getSource(): string
+if (interface_exists(CustomPropertyTransformerInterface::class)) {
+    class YearOfBirthTransformer implements CustomPropertyTransformerInterface
     {
-        return User::class;
-    }
+        public function transform(object|array $user): mixed
+        {
+            assert($user instanceof User);
 
-    public function getTarget(): string
-    {
-        return UserDTO::class;
-    }
-
-    public function process(MapperGeneratorMetadataInterface $metadata): void
-    {
-        if (!$metadata instanceof MapperMetadata) {
-            return;
+            return ((int) date('Y')) - ((int) $user->age);
         }
 
-        $metadata->forMember('yearOfBirth', function (User $user) {
-            return ((int) date('Y')) - ((int) $user->age);
-        });
+        public function supports(string $source, string $target, string $propertyName): bool
+        {
+            return User::class === $source && UserDTO::class === $target && 'yearOfBirth' === $propertyName;
+        }
+    }
+
+    class UserMapperConfiguration
+    {
+
+    }
+} else {
+    class UserMapperConfiguration implements MapperConfigurationInterface
+    {
+        public function getSource(): string
+        {
+            return User::class;
+        }
+
+        public function getTarget(): string
+        {
+            return UserDTO::class;
+        }
+
+        public function process(MapperGeneratorMetadataInterface $metadata): void
+        {
+            if (!$metadata instanceof MapperMetadata) {
+                return;
+            }
+
+            $metadata->forMember('yearOfBirth', function (User $user) {
+                return ((int) date('Y')) - ((int) $user->age);
+            });
+        }
+    }
+
+    class YearOfBirthTransformer
+    {
     }
 }
 

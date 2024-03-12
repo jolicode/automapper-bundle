@@ -13,6 +13,7 @@ use AutoMapper\Loader\FileLoader;
 use AutoMapper\MapperGeneratorMetadataFactory;
 use AutoMapper\MapperGeneratorMetadataInterface;
 use AutoMapper\Normalizer\AutoMapperNormalizer;
+use AutoMapper\Transformer\CustomTransformer\CustomTransformerInterface;
 use AutoMapper\Transformer\CustomTransformer\CustomTransformersRegistry;
 use AutoMapper\Transformer\SymfonyUidTransformerFactory;
 use AutoMapper\Transformer\TransformerFactoryInterface;
@@ -58,6 +59,10 @@ class AutoMapperExtension extends Extension
 
         $container->getDefinition(FileLoader::class)->replaceArgument(2, $config['hot_reload']);
         $container->registerForAutoconfiguration(TransformerFactoryInterface::class)->addTag('automapper.transformer_factory');
+
+        if (interface_exists(CustomTransformerInterface::class)) {
+            $container->registerForAutoconfiguration(CustomTransformerInterface::class)->addTag('automapper.custom_transformer');
+        }
 
         if (class_exists(AbstractUid::class)) {
             $container

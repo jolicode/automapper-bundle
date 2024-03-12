@@ -5,5 +5,10 @@
 
     <services>
         <service id="AutoMapper\Transformer\CustomTransformer\CustomTransformersRegistry" />
+
+        <service id="AutoMapper\Transformer\CustomTransformer\CustomTransformerFactory">
+            <argument type="service" id="AutoMapper\Transformer\CustomTransformer\CustomTransformersRegistry" />
+            <tag name="automapper.transformer_factory" priority="1003" />
+        </service>
     </services>
 </container>
