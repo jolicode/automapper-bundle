@@ -4,7 +4,6 @@ namespace AutoMapper\Bundle\DependencyInjection\Compiler;
 
 use AutoMapper\Generator\Generator;
 use AutoMapper\Transformer\ChainTransformerFactory;
-use AutoMapper\Transformer\CustomTransformer\CustomTransformerFactory;
 use AutoMapper\Transformer\CustomTransformer\CustomTransformerInterface;
 use AutoMapper\Transformer\CustomTransformer\CustomTransformersRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

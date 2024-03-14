@@ -44,7 +44,7 @@ class ServiceInstantiationTest extends WebTestCase
         self::assertInstanceOf(\Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_AddressDTO_array::class, new \Symfony_Mapper_AutoMapper_Bundle_Tests_Fixtures_AddressDTO_array());
     }
 
-    public function testAutoMapper()
+    public function testAutoMapper(): void
     {
         static::bootKernel();
         $container = static::$kernel->getContainer();
