@@ -14,6 +14,7 @@ services:
   _defaults:
     autoconfigure: true
 
+  DummyApp\YearOfBirthTransformer: ~
   DummyApp\UserMapperConfiguration: ~
   DummyApp\IdNameConverter: ~
   AutoMapper\Bundle\Tests\Resources\App\Transformer\MoneyTransformerFactory: ~

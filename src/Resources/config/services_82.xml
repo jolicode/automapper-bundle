@@ -8,6 +8,7 @@
             <argument type="service" id="AutoMapper\Loader\ClassLoaderInterface" />
             <argument type="service" id="AutoMapper\Transformer\ChainTransformerFactory" />
             <argument type="service" id="AutoMapper\MapperGeneratorMetadataFactoryInterface" />
+
         </service>
         <service id="AutoMapper\AutoMapperInterface" alias="AutoMapper\Bundle\AutoMapper" public="true" />
         <service id="AutoMapper\AutoMapperRegistryInterface" alias="AutoMapper\Bundle\AutoMapper" public="true" />
@@ -52,7 +53,10 @@
             <argument type="service" id="serializer.mapping.class_metadata_factory" />
         </service>
 
-        <service id="AutoMapper\Transformer\ChainTransformerFactory" />
+        <service id="AutoMapper\Transformer\ChainTransformerFactory">
+            <argument type="collection" />
+        </service>
+
         <service id="AutoMapper\Transformer\TransformerFactoryInterface" alias="AutoMapper\Transformer\ChainTransformerFactory" />
 
         <service id="AutoMapper\Normalizer\AutoMapperNormalizer">
@@ -60,17 +64,14 @@
         </service>
 
         <service id="AutoMapper\Transformer\MultipleTransformerFactory">
-            <argument type="service" id="AutoMapper\Transformer\ChainTransformerFactory" />
             <tag name="automapper.transformer_factory" priority="1002" />
         </service>
 
         <service id="AutoMapper\Transformer\NullableTransformerFactory">
-            <argument type="service" id="AutoMapper\Transformer\ChainTransformerFactory" />
             <tag name="automapper.transformer_factory" priority="1001" />
         </service>
 
         <service id="AutoMapper\Transformer\UniqueTypeTransformerFactory">
-            <argument type="service" id="AutoMapper\Transformer\ChainTransformerFactory" />
             <tag name="automapper.transformer_factory" priority="1000" />
         </service>
 
@@ -87,12 +88,10 @@
         </service>
 
         <service id="AutoMapper\Transformer\ArrayTransformerFactory">
-            <argument type="service" id="AutoMapper\Transformer\ChainTransformerFactory" />
             <tag name="automapper.transformer_factory" priority="-1002" />
         </service>
 
         <service id="AutoMapper\Transformer\ObjectTransformerFactory">
-            <argument type="service" id="AutoMapper\AutoMapperRegistryInterface" />
             <tag name="automapper.transformer_factory" priority="-1003" />
         </service>
 

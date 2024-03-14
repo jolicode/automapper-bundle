@@ -2,6 +2,7 @@
 
 namespace AutoMapper\Bundle\DependencyInjection;
 
+use AutoMapper\Bundle\AutoMapper;
 use AutoMapper\Bundle\CacheWarmup\CacheWarmerLoaderInterface;
 use AutoMapper\Bundle\CacheWarmup\ConfigurationCacheWarmerLoader;
 use AutoMapper\Bundle\Configuration\MapperConfigurationInterface;
@@ -12,6 +13,8 @@ use AutoMapper\Loader\FileLoader;
 use AutoMapper\MapperGeneratorMetadataFactory;
 use AutoMapper\MapperGeneratorMetadataInterface;
 use AutoMapper\Normalizer\AutoMapperNormalizer;
+use AutoMapper\Transformer\CustomTransformer\CustomTransformerInterface;
+use AutoMapper\Transformer\CustomTransformer\CustomTransformersRegistry;
 use AutoMapper\Transformer\SymfonyUidTransformerFactory;
 use AutoMapper\Transformer\TransformerFactoryInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -38,7 +41,16 @@ class AutoMapperExtension extends Extension
         $container->registerForAutoconfiguration(MapperConfigurationInterface::class)->addTag('automapper.mapper_configuration');
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
+
+        if (class_exists(Generator::class)) {
+            $loader->load('generator.xml');
+            $loader->load('services.xml');
+        } else {
+            // AutoMapper 8.2
+            $loader->load('mapper_generator.xml');
+            $loader->load('custom_transformers.xml');
+            $loader->load('services_82.xml');
+        }
 
         $container->getDefinition(MapperGeneratorMetadataFactory::class)
             ->replaceArgument(5, $config['date_time_format'])
@@ -47,6 +59,10 @@ class AutoMapperExtension extends Extension
 
         $container->getDefinition(FileLoader::class)->replaceArgument(2, $config['hot_reload']);
         $container->registerForAutoconfiguration(TransformerFactoryInterface::class)->addTag('automapper.transformer_factory');
+
+        if (interface_exists(CustomTransformerInterface::class)) {
+            $container->registerForAutoconfiguration(CustomTransformerInterface::class)->addTag('automapper.custom_transformer');
+        }
 
         if (class_exists(AbstractUid::class)) {
             $container
@@ -70,7 +86,16 @@ class AutoMapperExtension extends Extension
                 ->addArgument(new Reference($config['name_converter']));
         }
 
-        if ($config['allow_readonly_target_to_populate']) {
+        if (class_exists(CustomTransformersRegistry::class)) {
+            $autoMapperDefinition = $container->getDefinition(AutoMapper::class);
+
+            $mapperDefinition = $autoMapperDefinition->getArgument(2);
+
+            $autoMapperDefinition->replaceArgument(2, new Reference(CustomTransformersRegistry::class));
+            $autoMapperDefinition->addArgument($mapperDefinition);
+        }
+
+        if (class_exists(Generator::class) && $config['allow_readonly_target_to_populate']) {
             $container
                 ->getDefinition(Generator::class)
                 ->replaceArgument(2, $config['allow_readonly_target_to_populate']);

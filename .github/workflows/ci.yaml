@@ -52,4 +52,4 @@ jobs:
         env:
           SYMFONY_REQUIRE: "${{ matrix.symfony-versions }}"
       - name: tests
-        run: vendor/bin/phpunit
+        run: SYMFONY_DEPRECATIONS_HELPER="disabled=1" vendor/bin/simple-phpunit
