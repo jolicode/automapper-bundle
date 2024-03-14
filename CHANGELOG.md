@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [8.1.0] - 2024-03-14
 ### Added
 - [GH#12](https://github.com/jolicode/automapper-bundle/pull/12) Support for AutoMapper >=8.2
 
@@ -36,7 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [GH#710](https://github.com/janephp/janephp/pull/710) Add Enum support in AutoMapper bundle
 
-[Unreleased]: https://github.com/jolicode/automapper/compare/8.0.3...HEAD
+[Unreleased]: https://github.com/jolicode/automapper/compare/8.1.0...HEAD
+[8.1.0]: https://github.com/janephp/janephp/compare/8.0.3...8.1.0
 [8.0.3]: https://github.com/janephp/janephp/compare/8.0.2...8.0.3
 [8.0.2]: https://github.com/janephp/janephp/compare/8.0.1...8.0.2
 [8.0.1]: https://github.com/janephp/janephp/compare/8.0.0...8.0.1
