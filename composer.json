@@ -5,6 +5,7 @@
     "keywords": ["bundle", "symfony"],
     "homepage": "https://github.com/jolicode/automapper-bundle",
     "license": "MIT",
+    "abandoned": "jolicode/automapper",
     "authors": [
         {
             "name": "Joel Wurtz",
